@@ -1,0 +1,11 @@
+$def with (image_url)
+
+$if image_url:
+    The resource was downloaded from $image_url   
+$else:
+    <em>Hello</em>, world!
+
+<form action="/hello" method="GET">
+    <input type="submit">
+</form>
+
