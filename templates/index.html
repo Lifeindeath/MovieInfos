@@ -1,9 +1,9 @@
-$def with (image_url)
+$def with (title,genre,year,cast)
 
-$if image_url:
-    The resource was downloaded from $image_url   
-$else:
-    <em>Hello</em>, world!
+Film: $title<br>
+Genere: $genre<br>
+Anno: $year<br>
+Cast: $cast<br>
 
 <form action="/hello" method="GET">
     <input type="submit">
