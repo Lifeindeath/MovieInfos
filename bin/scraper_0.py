@@ -36,6 +36,7 @@ def merge_infos(main_info, plot):
             fields += [re.findall(field_name,i)[0]]            
         else:
             value += i
+    values += [value]
     fields += [plot[0]]
     values += [plot[1]]
     
