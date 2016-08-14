@@ -24,7 +24,7 @@ def is_field(string):
         return False
 
 def merge_infos(main_info, plot):    
-    field_name = r'.*:'
+    field_name = r'(.*):'
     fields = []
     values = []
     value = ''
@@ -37,7 +37,7 @@ def merge_infos(main_info, plot):
         else:
             value += i
     values += [value]
-    fields += [plot[0]]
+    fields += [re.findall(field_name,plot[0])[0]]
     values += [plot[1]]
     
     return dict(zip(fields,values[1:]))
