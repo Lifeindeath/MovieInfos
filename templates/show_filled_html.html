@@ -1,4 +1,10 @@
-$def with (t_body)
+$def with (t_body, form)
 
 Template loaded:<br>
-<textarea style="width:600px;height:200px">$t_body</textarea>
+
+<form name="missing_fields" action="fill_form" method="POST"> 
+	<textarea name="partial_fill" style="width:600px;height:200px">$t_body</textarea>
+	<br>Some fields still need completion:<br>
+	$:form.render()
+	<input type="submit" value="Fill missing fields" />
+</form>

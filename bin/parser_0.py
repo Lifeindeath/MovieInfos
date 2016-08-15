@@ -24,3 +24,7 @@ def fill_fields_from_dict(field_dict, html_template):
     set_field_dict(field_dict)
     field_regexp = r'%%([A-Za-z_]*)'
     return re.sub(field_regexp, get_field_from_dict, html_template)
+
+def get_field_list(html_template):	
+    field_regexp = r'%%([A-Za-z_]*)'
+    return re.findall(field_regexp, html_template)
