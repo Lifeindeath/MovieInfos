@@ -8,7 +8,7 @@ A python webapp may seem a bit of overkill (I already have a simpler one coded i
   * [x] Fetch info
   * [x] Create dictionary 
   * [x] Download image 
-  * [ ] Produce well-formatted text 
+  * [x] Produce well-formatted text 
 * [x] Auto generate form 
 * [x] Replace remaining fields with info from forms 
 * [ ] Download filled HTML code 
@@ -24,3 +24,7 @@ A python webapp may seem a bit of overkill (I already have a simpler one coded i
   * Load article template 
   * Fill HTML template with info present in dictionary created from filmup
   * Must do better formatting of plot
+
+22/9:
+  * Added some templates
+  * More textareas to fill at the same time
