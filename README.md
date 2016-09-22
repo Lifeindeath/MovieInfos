@@ -9,8 +9,8 @@ A python webapp may seem a bit of overkill (I already have a simpler one coded i
   * [x] Create dictionary 
   * [x] Download image 
   * [ ] Produce well-formatted text 
-* [ ] Auto generate form 
-* [ ] Replace remaining fields with info from forms 
+* [x] Auto generate form 
+* [x] Replace remaining fields with info from forms 
 * [ ] Download filled HTML code 
 
 * [ ] For newsletter: create snippets, make utility to merge them

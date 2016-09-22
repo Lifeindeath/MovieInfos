@@ -30,14 +30,22 @@ class Index(object):
     	return render.index()
 
     def POST(self):
-        template_info = web.input(movie_url=None, article={})
-        #fill template with info from filmup
-        field_dict = scraper_0.get_info_from_filmup(template_info.movie_url)        
-        html_template_filled = parser_0.fill_fields_from_dict(field_dict, template_info['article'].value)
-        field_list = parser_0.get_field_list(html_template_filled)
+        template_info = web.input(movie_url=None, article={}, news={})
+        #retrieve info from filmup
+        if template_info.movie_url != "":
+            field_dict = scraper_0.get_info_from_filmup(template_info.movie_url)      
+        else:
+            field_dict = {"null" : "null"}  
+        #fill templates
+        html_template_filled_article = parser_0.fill_fields_from_dict(field_dict, template_info['article'].value)
+        html_template_filled_news = parser_0.fill_fields_from_dict(field_dict, template_info['news'].value)
+        #get missing fields
+        field_list = parser_0.get_field_list(html_template_filled_article)
+        field_list += parser_0.get_field_list(html_template_filled_news)
+        field_list = list(set(field_list))
         myform = form_autogen(field_list)
         f = myform()
-        return render.show_filled_html(html_template_filled,f)
+        return render.show_filled_html(html_template_filled_article, html_template_filled_news,f)
         
 class Filling(object):
 	def GET(self):
@@ -45,10 +53,12 @@ class Filling(object):
 
 	def POST(self):
 		values = web.input()
-		html_template = values['partial_fill']
-		html_template_filled = parser_0.fill_fields_from_dict(values, html_template)
+		html_template_article = values['partial_fill_article']
+		html_template_news = values['partial_fill_news']
+		html_template_filled_article = parser_0.fill_fields_from_dict(values, html_template_article)
+		html_template_filled_news = parser_0.fill_fields_from_dict(values, html_template_news)
 		f = form.Form()
-		return render.show_filled_html(html_template_filled, f)
+		return render.show_filled_html(html_template_filled_article, html_template_filled_news, f)
 
 if __name__ == "__main__":
 	app = web.application(urls, globals())
