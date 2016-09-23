@@ -48,18 +48,33 @@ class Index(object):
         return render.show_filled_html(html_template_filled_article, html_template_filled_news,f)
         
 class Filling(object):
-	def GET(self):
-		return 'Get'
+    def GET(self):
+        return 'Get'
 
-	def POST(self):
-		values = web.input()
-		html_template_article = values['partial_fill_article']
-		html_template_news = values['partial_fill_news']
-		html_template_filled_article = parser_0.fill_fields_from_dict(values, html_template_article)
-		html_template_filled_news = parser_0.fill_fields_from_dict(values, html_template_news)
-		f = form.Form()
-		return render.show_filled_html(html_template_filled_article, html_template_filled_news, f)
+    def POST(self):
+        values = web.input()
+        i = web.input(form_action='Save news') 
+        if i.form_action == 'Fill missing fields':
+            html_template_article = values['partial_fill_article']
+            html_template_news = values['partial_fill_news']
+            html_template_filled_article = parser_0.fill_fields_from_dict(values, html_template_article)
+            html_template_filled_news = parser_0.fill_fields_from_dict(values, html_template_news)
+            f = form.Form()
+            return render.show_filled_html(html_template_filled_article, html_template_filled_news, f)
+        if i.form_action == 'Save article':
+            f=open("article.html",'a')
+            f.write(values['partial_fill_article'])
+            f.write("\n")
+            f.close()
+            return render.show_filled_html(values['partial_fill_article'], values['partial_fill_news'], form.Form())
+        if i.form_action == 'Save news':
+            f=open("news.html",'a')
+            f.write(values['partial_fill_news'])
+            f.write("\n")
+            f.close()
+            return render.show_filled_html(values['partial_fill_article'], values['partial_fill_news'], form.Form())
+
 
 if __name__ == "__main__":
-	app = web.application(urls, globals())
-	app.run()
+    app = web.application(urls, globals())
+    app.run()
