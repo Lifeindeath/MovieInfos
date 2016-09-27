@@ -14,7 +14,10 @@ def get_text(el):
 	if isinstance(el, basestring):
 		return el
 	else:
-		return el.xpath('text()')[0]
+		if len(el.xpath('text()'))>0:
+			return el.xpath('text()')[0]
+		else:
+			return ""
 
 def is_field(string):
 	str_is_field = r'.*:\xa0'
@@ -46,16 +49,24 @@ def parse_apostrophe(s):
 	s = re.sub(r'\x92',"\'",s)
 	return re.sub(r'\x96',"-",s)
 
+def substitue_accents(s):
+	s = re.sub(r'\à',"a'",s)
+	s = re.sub(r'\ù',"u'",s)
+	s = re.sub(r'\ò',"o'",s)
+	return re.sub(r'ì',"i''",s)
+
 def get_info_from_filmup(film_url):
 	page = requests.get(film_url)
 	tree = html.fromstring(page.content)
 
 	#Fetch the infos as a list:
 	info = tree.xpath('//div[@id="container"]/table/tr/td/div/table/tr/td/table/tr/td/table/tr/td/font/node()')
+	print len(info)
 	info = [get_text(i) for i in info]
 	plot = tree.xpath('//div[@id="container"]/table/tr/td/div/table/tr/td/table/tr/td/font/text()')
 	image = tree.xpath('//div[@id="container"]/table/tr/td/div/table/tr/td/table/tr/td/table/form/tr/td/a[@class="filmup"]/@href')
 	plot[1] = parse_apostrophe(plot[1])
+	plot[1] = substitue_accents(plot[1])
 	
 	#Fetch large image url
 	image_page = requests.get('http://filmup.leonardo.it/'+image[0])
@@ -64,7 +75,10 @@ def get_info_from_filmup(film_url):
 	image_big = tree.xpath('//div[@id="container"]/table/tr/td/div/div/img/@src')
 
 	#Download image in local folder
-	urlretrieve('http://filmup.leonardo.it'+image_big[0], "images/loc.jpg")
+	s = r'/sc_(.[^\.]*)\.htm'
+	print re.findall(s,film_url)
+	img = "images/"+re.findall(s,film_url)[0]+".jpg"
+	urlretrieve('http://filmup.leonardo.it'+image_big[0], img)
 	#print(image downloaded)
 	res = merge_infos(info, plot)
 	return res
