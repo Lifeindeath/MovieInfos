@@ -54,6 +54,7 @@ class Filling(object):
     def POST(self):
         values = web.input()
         i = web.input(form_action='Save news') 
+      
         if i.form_action == 'Fill missing fields':
             html_template_article = values['partial_fill_article']
             html_template_news = values['partial_fill_news']
@@ -62,14 +63,17 @@ class Filling(object):
             f = form.Form()
             return render.show_filled_html(html_template_filled_article, html_template_filled_news, f)
         if i.form_action == 'Save article':
-            f=open("article.html",'a')
-            f.write(values['partial_fill_article'])
+            f = open(values["article_title"]+".html",'a')
+            f.write(values['partial_fill_article'].encode('utf-8').strip())
             f.write("\n")
             f.close()
             return render.show_filled_html(values['partial_fill_article'], values['partial_fill_news'], form.Form())
         if i.form_action == 'Save news':
-            f=open("news.html",'a')
-            f.write(values['partial_fill_news'])
+            if values.get("append_to")!=None:
+                f=open("news.html",'a')
+            else:
+                f=open("news.html",'w')
+            f.write(values['partial_fill_news'].encode('utf-8').strip())
             f.write("\n")
             f.close()
             return render.show_filled_html(values['partial_fill_article'], values['partial_fill_news'], form.Form())
