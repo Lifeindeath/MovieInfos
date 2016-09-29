@@ -1,2 +1,4 @@
 images/
 *.html
+*.ipynb
+.ipynb_checkpoints
