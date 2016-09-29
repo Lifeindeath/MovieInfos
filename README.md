@@ -28,3 +28,10 @@ A python webapp may seem a bit of overkill (I already have a simpler one coded i
 22/9:
   * Added some templates
   * More textareas to fill at the same time
+
+29/9
+  * Save html
+  * Resize image automatically
+  * Possibility to append to an existing file or to create one new
+
+-- Pretty much done --
