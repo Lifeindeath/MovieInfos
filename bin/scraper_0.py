@@ -9,6 +9,20 @@ from lxml import html
 import requests
 from urllib import urlretrieve 
 import re
+import PIL
+from PIL import Image
+
+def resize_image(image,width=0, height=0):
+	basewidth = 300
+	if width!=0:
+		wpercent = (width / float(image.size[0]))
+		height = int((float(image.size[1]) * float(wpercent)))
+		image = image.resize((width, hsize), PIL.Image.ANTIALIAS)
+	else:
+		hpercent = (height / float(image.size[1]))
+		wsize = int((float(image.size[0]) * float(hpercent)))
+		image = image.resize((wsize, height), PIL.Image.ANTIALIAS)
+	return image
 
 def get_text(el):
 	if isinstance(el, basestring):
@@ -76,9 +90,16 @@ def get_info_from_filmup(film_url):
 
 	#Download image in local folder
 	s = r'/sc_(.[^\.]*)\.htm'
-	print re.findall(s,film_url)
-	img = "images/"+re.findall(s,film_url)[0]+".jpg"
-	urlretrieve('http://filmup.leonardo.it'+image_big[0], img)
-	#print(image downloaded)
+	#print re.findall(s,film_url)
+	img_title = "images/"+re.findall(s,film_url)[0]+".jpg"
+	urlretrieve('http://filmup.leonardo.it'+image_big[0], img_title)
+	#resize image:
+	image = Image.open(img_title)
+	image_small = resize_image(image,height=330)
+	image_small.save("images/"+re.findall(s,film_url)[0]+"_small.jpg")
+	image_fullsize = resize_image(image,height=600)
+	image_fullsize.save("images/"+re.findall(s,film_url)[0]+".jpg")
+	
 	res = merge_infos(info, plot)
+	
 	return res
