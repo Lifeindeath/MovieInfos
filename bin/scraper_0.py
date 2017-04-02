@@ -16,7 +16,7 @@ def resize_image(image,width=0, height=0):
 	basewidth = 300
 	if width!=0:
 		wpercent = (width / float(image.size[0]))
-		height = int((float(image.size[1]) * float(wpercent)))
+		hsize = int((float(image.size[1]) * float(wpercent)))
 		image = image.resize((width, hsize), PIL.Image.ANTIALIAS)
 	else:
 		hpercent = (height / float(image.size[1]))

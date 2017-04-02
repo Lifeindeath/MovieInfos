@@ -63,7 +63,10 @@ class Filling(object):
             f = form.Form()
             return render.show_filled_html(html_template_filled_article, html_template_filled_news, f)
         if i.form_action == 'Save article':
-            f = open(values["article_title"]+".html",'a')
+            if values.get("append_to")!=None:
+                f=open("list.html",'a')
+            else:
+                f = open(values["article_title"]+".html",'a')
             f.write(values['partial_fill_article'].encode('utf-8').strip())
             f.write("\n")
             f.close()
@@ -72,7 +75,7 @@ class Filling(object):
             if values.get("append_to")!=None:
                 f=open("news.html",'a')
             else:
-                f=open("news.html",'w')
+                f = open(values["news_title"]+".html",'a')
             f.write(values['partial_fill_news'].encode('utf-8').strip())
             f.write("\n")
             f.close()

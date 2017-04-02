@@ -5,9 +5,11 @@ Template loaded:<br>
 <form action="fill_form" method="POST"> 
 	<textarea name="partial_fill_article" style="width:500px;height:200px" >$t_body</textarea>
 	<textarea name="partial_fill_news" style="width:500px;height:200px">$t_body_news</textarea>
+	
 	<br>
 	
 	<input type="submit" name="form_action" value="Save news"  />
+	News name: <input type="text" name="news_title"/>
 	<input type="checkbox" name="append_to" value="Append"/>Append<br>
 	<input type="submit" name="form_action" value="Save article" />
 	Name: <input type="text" name="article_title"/>
